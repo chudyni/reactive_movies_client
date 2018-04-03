@@ -3,6 +3,8 @@ package com.example.reactivemoviesclient
 import org.reactivestreams.Publisher
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
+import org.springframework.cloud.gateway.route.builder.routes
 import org.springframework.context.support.beans
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToFlux
@@ -44,6 +46,20 @@ fun main(args: Array<String>) {
                                     ServerResponse.ok().body(names)
 //                                    ServerResponse.ok().body(names, String::class.java)   // Kotlin knows it
                                 }
+                            }
+                        }
+
+                        //Spring Gateway
+                        bean {
+                            val builder = ref<RouteLocatorBuilder>()
+                            builder.routes {
+
+                                route {
+                                    path("/proxy")
+                                    //works with Eureka
+                                    uri("http://localhost:8081/movies")
+                                }
+
                             }
                         }
                     }
