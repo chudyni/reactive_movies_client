@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.context.support.beans
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.bodyToFlux
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.router
@@ -25,26 +26,26 @@ fun main(args: Array<String>) {
                                     .baseUrl("http://localhost:8081/movies")
                                     .build()
                         }
-//
-//                        bean {
-//                            router {
-//
-//                                val client = ref<WebClient>()
-//
-//                                GET("/titles") {
-//                                    val names: Publisher<String> = client
-//                                            .get()
-//                                            .retrieve()
+
+                        bean {
+                            router {
+
+                                val client = ref<WebClient>()
+
+                                GET("/titles") {
+                                    val names: Publisher<String> = client
+                                            .get()
+                                            .retrieve()
 //                                            .bodyToFlux(Movie::class.java)
-////                                            .bodyToFlux<Movie>()
-////                                            .map { movie -> movie.title}
-//                                            .map { it.title }
-//
-//                                    ServerResponse.ok().body(names)
-////                                    ServerResponse.ok().body(names, String::class.java)   // Kotlin knows it
-//                                }
-//                            }
-//                        }
+                                            .bodyToFlux<Movie>()
+//                                            .map { movie -> movie.title}
+                                            .map { it.title }
+
+                                    ServerResponse.ok().body(names)
+//                                    ServerResponse.ok().body(names, String::class.java)   // Kotlin knows it
+                                }
+                            }
+                        }
                     }
             )
             .run(*args);
