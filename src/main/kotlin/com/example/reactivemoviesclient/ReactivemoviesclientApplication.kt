@@ -63,6 +63,7 @@ fun main(args: Array<String>) {
                                     uri("http://localhost:8081/movies")
                                 }
 
+                                // 1:01:00
 //                                route {
 //                                    val rl = ref<RequestRateLimiterGatewayFilterFactory>()
 //                                    val redisRl = RedisRateLimiter(5,10)
